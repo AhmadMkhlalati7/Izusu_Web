@@ -38,10 +38,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div className="min-h-screen bg-white">
+        <main className="h-screen snap-y snap-mandatory overflow-y-scroll scroll-smooth bg-white">
           <Navbar />
-          <main className="pt-16">{children}</main>
-        </div>
+          {children}
+        </main>
       </body>
     </html>
   );
