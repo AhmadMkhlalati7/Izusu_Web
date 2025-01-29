@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
@@ -15,8 +16,12 @@ import { CartItem } from "@/types";
 interface Props {
   cartItems: CartItem[];
 }
-const calculateTotalAmount = (items) => {
-  return items.reduce((total, item) => total + item.price * item.quantity, 0);
+
+const calculateTotalAmount = (items: CartItem[]) => {
+  return items.reduce(
+    (total: number, item: CartItem) => total + item.price * item.quantity,
+    0,
+  );
 };
 const CartTable = (props: Props) => {
   return (
@@ -37,7 +42,7 @@ const CartTable = (props: Props) => {
               {props.cartItems.map((product: CartItem) => (
                 <TableRow key={product.id}>
                   <TableCell className="table-cell">
-                    <img
+                    <Image
                       src={product.thumbnail}
                       alt={product.title}
                       className="h-16 w-16 rounded-lg object-cover"

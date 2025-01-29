@@ -1,12 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Heart, ShoppingCart, ShoppingCartIcon } from "lucide-react";
+import { Heart, ShoppingCart } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import { IncrementorInput } from "@/components/ui/IncrementorInput";
-import { Separator } from "@/components/ui/separator";
+import { Card, CardContent } from "@/components/ui/card";
 
 interface CarCardProps {
   title: string;
@@ -30,7 +28,6 @@ export function CarCard({
   year,
   trim,
   location,
-  specs,
   price,
   mileage,
   engineSize,

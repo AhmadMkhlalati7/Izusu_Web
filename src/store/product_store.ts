@@ -2,12 +2,10 @@
 import { create } from "zustand";
 
 import { toast } from "@/hooks/use-toast";
-import { Product } from "@/types";
+import { CartItem, Product } from "@/types";
 
 
-interface CartItem extends Product {
-  quantity: number;
-}
+
 
 interface ProductStore {
   cart: CartItem[];
@@ -26,36 +24,38 @@ export const useProductStore = create<ProductStore>((set) => ({
         : [...state.favorites, product],
     })),
   updateCartQuantity: (product, quantity) => {
-    set((state) => {
-      const existingItemIndex = state.cart.findIndex(
-        (item) => item.id === product.id,
-      );
+  set((state) => {
+    const existingItemIndex = state.cart.findIndex(
+      (item) => item.id === product.id
+    );
 
-      if (quantity === 0) {
-        return {
-          cart: state.cart.filter((item) => item.id !== product.id),
-        };
-      }
-      if (existingItemIndex > -1) {
-        // Update the quantity if the item already exists in the cart
-        const updatedCart = [...state.cart];
-        updatedCart[existingItemIndex] = {
-          ...state.cart[existingItemIndex],
-          quantity,
-        };
-        console.log(updatedCart);
-        return { cart: updatedCart };
-      }
-
-      console.log([...state.cart, { ...product, quantity }]);
-
+    if (quantity === 0) {
       return {
-        cart: [...state.cart, { ...product, quantity }],
+        cart: state.cart.filter((item) => item.id !== product.id),
       };
-    });
-    toast({
-      title: "Success !!",
-      description: "Product has been added successfully.",
-    });
-  },
+    }
+
+    if (existingItemIndex > -1) {
+      // Update the quantity if the item already exists in the cart
+      const updatedCart = [...state.cart];
+      updatedCart[existingItemIndex] = {
+        ...updatedCart[existingItemIndex],
+        quantity,
+      };
+
+      return { cart: updatedCart };
+    }
+
+    return {
+      cart: [...state.cart, { ...product, quantity }],
+    };
+  });
+
+  // Toast notification (ensure this runs after set)
+  toast({
+    title: "Success!",
+    description: `Product ${product.name} has been added successfully.`,
+  });
+},
+
 }));

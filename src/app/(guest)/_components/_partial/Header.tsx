@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Menu, Search, ShoppingBag, ShoppingCart, X } from "lucide-react";
 
-import CartTable from "@/app/_components/cart_table";
+import CartTable from "@/app/(guest)/_components/cart_table";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import {
@@ -17,8 +17,8 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { useProductStore } from "@/store/product_store";
-import { Input } from "./ui/input";
-import { NotificationBadge } from "./ui/notification-badge";
+import { Input } from "../../../../components/ui/input";
+import { NotificationBadge } from "../../../../components/ui/notification-badge";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
