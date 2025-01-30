@@ -54,7 +54,7 @@ export const useProductStore = create<ProductStore>((set) => ({
   // Toast notification (ensure this runs after set)
   toast({
     title: "Success!",
-    description: `Product ${product.name} has been added successfully.`,
+    description: `Product ${product.title} has been added successfully.`,
   });
 },
 

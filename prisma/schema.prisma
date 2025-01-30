@@ -1,33 +1,77 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+ 
 generator client {
   provider = "prisma-client-js"
 }
+ model Account {
+  userId               String
+  type                 String
+  provider             String
+  providerAccountId    String
+  refresh_token        String?
+  access_token         String?
+  expires_at           Int?
+  token_type           String?
+  scope                String?
+  id_token             String?
+  session_state        String?
 
-datasource db {
-  provider = "postgresql"
-  url      = env("POSTGRES_URL")
+  @@id([provider, providerAccountId])
+  @@map("account")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Authenticator {
+  credentialID           String
+  userId                 String
+  providerAccountId      String
+  credentialPublicKey    String
+  counter                Int
+  credentialDeviceType   String
+  credentialBackedUp     Boolean
+  transports             String?
+
+  @@id([userId, credentialID])
+  @@unique([credentialID])
+  @@map("authenticator")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Session {
+  sessionToken    String  @id
+  userId          String
+  expires         DateTime
+
+  @@map("session")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model User {
-  id            String       @default(cuid()) @id
-  name          String?
-  email         String?   @unique
-  password  String
-  createdAt     DateTime  @default(now()) @map(name: "created_at")
-  updatedAt     DateTime  @updatedAt @map(name: "updated_at")
-  @@map(name: "users")
+  id              String  @id
+  email           String? @unique
+  password        String?
+  name            String?
+  emailVerified   DateTime?
+  image           String?
+
+  accounts        Account[]
+  authenticators  Authenticator[]
+  sessions        Session[]
+
+  @@map("user")
 }
 
-model Admin {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  password  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  @@map(name: "admins")
+model VerificationToken {
+  identifier  String
+  token       String
+  expires     DateTime
+
+  @@id([identifier, token])
+  @@map("verificationToken")
 }

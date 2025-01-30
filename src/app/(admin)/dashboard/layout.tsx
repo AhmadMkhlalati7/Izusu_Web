@@ -8,7 +8,7 @@ interface AdminLayoutProps {
   children: React.ReactNode;
 }
 
-export default function Layout({ children }: AdminLayoutProps) {
+export default async function Layout({ children }: AdminLayoutProps) {
   return (
     <SidebarProvider>
       <div className="flex h-screen w-full">
