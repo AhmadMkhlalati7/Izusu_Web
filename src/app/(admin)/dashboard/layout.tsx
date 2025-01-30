@@ -1,3 +1,8 @@
+"use server";
+
+import { redirect } from "next/navigation";
+
+import { auth } from "@/auth";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import Footer from "../_components/_partial/Footer";
@@ -9,6 +14,9 @@ interface AdminLayoutProps {
 }
 
 export default async function Layout({ children }: AdminLayoutProps) {
+  const session = await auth();
+  if (!session) return redirect("/login");
+
   return (
     <SidebarProvider>
       <div className="flex h-screen w-full">
