@@ -2,6 +2,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 
 import "@/app/globals.css";
 
+import { SessionProvider } from "next-auth/react";
+
 import { Toaster } from "@/components/ui/toaster";
 import { QueryProvider } from "@/providers/query-provider";
 
@@ -21,7 +23,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <div className="min-h-screen bg-gray-50">
-          <QueryProvider>{children}</QueryProvider>
+          <SessionProvider>
+            <QueryProvider>{children}</QueryProvider>
+          </SessionProvider>
           <Toaster />
         </div>
       </body>

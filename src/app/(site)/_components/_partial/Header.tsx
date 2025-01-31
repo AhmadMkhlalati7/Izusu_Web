@@ -3,10 +3,28 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Menu, Search, ShoppingBag, ShoppingCart, X } from "lucide-react";
+import { redirect } from "next/navigation";
+import { DropdownMenuItem } from "@radix-ui/react-dropdown-menu";
+import {
+  Menu,
+  Search,
+  ShoppingBag,
+  ShoppingCart,
+  UserCircle,
+  X,
+} from "lucide-react";
+import { useSession } from "next-auth/react";
 
-import CartTable from "@/app/(guest)/_components/cart_table";
+import { logout } from "@/app/(auth)/login/actions/actions";
+import CartTable from "@/app/(site)/_components/cart_table";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Separator } from "@/components/ui/separator";
 import {
   Sheet,
@@ -25,6 +43,12 @@ const Navbar = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
 
   const { cart } = useProductStore();
+  const { data: session } = useSession();
+
+  const handleLogout = async () => {
+    const res = await logout();
+    if (res.success) return redirect("/login");
+  };
   return (
     <>
       <header className="sticky top-0 z-50">
@@ -72,6 +96,34 @@ const Navbar = () => {
                         <ShoppingCart className="mr-1 inline-block h-5 w-5" />
                       </NotificationBadge>
                     </Button>
+                  </li>
+                  <li>
+                    <div className="flex items-center">
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="ghost" size="icon">
+                            <UserCircle className="h-5 w-5" />
+                            <span className="sr-only">User menu</span>
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent
+                          align="end"
+                          className="bg-white p-3"
+                        >
+                          <DropdownMenuLabel>
+                            {session?.user.name} ({session?.user.role})
+                          </DropdownMenuLabel>
+                          <DropdownMenuSeparator />
+
+                          <DropdownMenuItem
+                            className="cursor-pointer"
+                            onClick={handleLogout}
+                          >
+                            Log out
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </div>
                   </li>
                 </ul>
               </div>

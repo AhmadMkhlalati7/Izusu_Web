@@ -44,7 +44,7 @@ model User {
   email         String?   @unique
   emailVerified DateTime? @map("email_verified")
   image         String?
-  password      String?
+  password      String
   role          String
   accounts      Account[]
   sessions      Session[]
@@ -59,4 +59,24 @@ model VerificationToken {
 
   @@unique([identifier, token])
   @@map("verification_tokens")
+}
+
+
+model Product {
+  id             String   @id @default(uuid())
+  title          String
+  description    String
+  images        String[]
+  category       String
+  gvw            Float
+  engine         String
+  drivingSystem  String
+  transmission   String
+  powerPSRPM     String  
+  torqueKgMRPM   String  
+  axle_capacity   Float
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@map("products")
 }

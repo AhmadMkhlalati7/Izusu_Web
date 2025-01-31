@@ -2,7 +2,7 @@
 
 import { notFound, useParams } from "next/navigation";
 
-import CarDetails from "../(guest)/_components/car-details";
+import CarDetails from "../(site)/_components/car-details";
 
 // This would typically come from an API or database
 const SAMPLE_CARS = {

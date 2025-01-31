@@ -16,16 +16,13 @@ export async function login({
       password,
     });
 
-    const formData = new FormData();
-
-    formData.append("email", email);
-    formData.append("password", password);
-
     const res = await signIn("credentials", {
-      redirect: false,
       email,
       password,
+      redirect: false,
     });
+    console.log(res);
+    
 
     return {
       success: true,

@@ -15,7 +15,8 @@ interface AdminLayoutProps {
 
 export default async function Layout({ children }: AdminLayoutProps) {
   const session = await auth();
-  if (!session) return redirect("/login");
+
+  if (!session || session?.user.role !== "admin") return redirect("/login");
 
   return (
     <SidebarProvider>

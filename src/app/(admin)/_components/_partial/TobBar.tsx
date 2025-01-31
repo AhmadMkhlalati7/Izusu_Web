@@ -1,5 +1,9 @@
+"use client";
+
+import { redirect } from "next/navigation";
 import { Bell, Menu, User } from "lucide-react";
 
+import { logout } from "@/app/(auth)/login/actions/actions";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -12,6 +16,10 @@ import {
 import { SidebarTrigger } from "@/components/ui/sidebar";
 
 export default function TopBar() {
+  const handleLogout = async () => {
+    const res = await logout();
+    if (res.success) return redirect("/login");
+  };
   return (
     <div className="flex w-full items-center justify-between border-b bg-red-500 p-4 text-white">
       <div className="flex items-center space-x-4">
@@ -56,12 +64,12 @@ export default function TopBar() {
               <span className="sr-only">User menu</span>
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
+          <DropdownMenuContent align="end" className="bg-white">
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem>Profile</DropdownMenuItem>
             <DropdownMenuItem>Settings</DropdownMenuItem>
-            <DropdownMenuItem>Log out</DropdownMenuItem>
+            <DropdownMenuItem onClick={handleLogout}>Log out</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

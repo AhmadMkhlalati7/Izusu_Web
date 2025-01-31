@@ -5,7 +5,7 @@ import Credentials from "next-auth/providers/credentials";
 import { z } from "zod";
 
 import { prisma } from "@/lib/prisma";
-import { getUserById } from "./services/auth";
+import { getUserByEmail, getUserById } from "./services/auth";
 
 const CredentialsSchema = z.object({
   email: z.string().email(),
@@ -23,14 +23,15 @@ export default {
       },
       authorize: async (credentials) => {
         const validatedFields = CredentialsSchema.safeParse(credentials);
+
         if (!validatedFields.success) {
           return null;
         }
         const { email, password } = validatedFields.data;
-        const user = await prisma.user.findFirst({
-          where: { email },
-        });
+                                
 
+        const user = await getUserByEmail( email );
+        
         if (!user || !user.password) return null;
 
         const passwordsMatch = await bcrypt.compare(password, user.password);
@@ -44,18 +45,10 @@ export default {
     }),
   ],
   pages: {
-    signIn: "/sign-in",
-    error: "/sign-in",
+    signIn: "/login",
+    error: "/login",
+    signOut:"/login",
   },
-  events: {
-    async linkAccount({ user }) {
-      await prisma.user.update({
-        where: { id: user.id },
-        data: { emailVerified: new Date() },
-      });
-    },
-  },
-
   callbacks: {
     session({ session, token }) {
       if (token.sub && session.user) {
