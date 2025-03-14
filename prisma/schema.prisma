@@ -70,10 +70,10 @@ model Product {
   category       String
   gvw            Float
   engine         String
-  drivingSystem  String
+  driving_system  String
   transmission   String
-  powerPSRPM     String  
-  torqueKgMRPM   String  
+  power_psrpm     String  
+  torque_kg_mrpm   String  
   axle_capacity   Float
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt

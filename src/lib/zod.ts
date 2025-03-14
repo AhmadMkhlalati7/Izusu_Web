@@ -50,3 +50,18 @@ export const authenticatorSchema = z.object({
   credentialBackedUp: z.boolean(),
   transports: z.string().optional(),
 });
+
+
+export const ProductSchema = z.object({
+   title: z.string(),
+    description: z.string(),
+    category: z.string(),
+    gvw: z.string(),
+    engine: z.string(),
+    drivingSystem: z.string(),
+    transmission: z.string(),
+    powerPSRPM: z.string(),
+    torqueKgMRPM: z.string(),
+    axle_capacity:z.string() ,
+});
+

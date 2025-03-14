@@ -33,7 +33,7 @@ CREATE TABLE "users" (
     "email" TEXT,
     "email_verified" TIMESTAMP(3),
     "image" TEXT,
-    "password" TEXT,
+    "password" TEXT NOT NULL,
     "role" TEXT NOT NULL,
 
     CONSTRAINT "users_pkey" PRIMARY KEY ("id")
@@ -44,6 +44,26 @@ CREATE TABLE "verification_tokens" (
     "identifier" TEXT NOT NULL,
     "token" TEXT NOT NULL,
     "expires" TIMESTAMP(3) NOT NULL
+);
+
+-- CreateTable
+CREATE TABLE "products" (
+    "id" TEXT NOT NULL,
+    "title" TEXT NOT NULL,
+    "description" TEXT NOT NULL,
+    "images" TEXT[],
+    "category" TEXT NOT NULL,
+    "gvw" DOUBLE PRECISION NOT NULL,
+    "engine" TEXT NOT NULL,
+    "driving_system" TEXT NOT NULL,
+    "transmission" TEXT NOT NULL,
+    "power_psrpm" TEXT NOT NULL,
+    "torque_kg_mrpm" TEXT NOT NULL,
+    "axle_capacity" DOUBLE PRECISION NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "products_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
